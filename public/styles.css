@@ -1,0 +1,119 @@
+@import 'reset.css';
+
+:root {
+  font-size: 16px;
+
+  --c-100: #2f3e46ff;
+  --c-200: #354f52ff;
+  --c-300: #52796fff;
+  --c-400: #84a98cff;
+  --c-500: #cad2c5ff;
+  --c-600: #e5e9e2ff;
+  --c-700: #f2f4f1ff;
+}
+
+body {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--c-700);
+  color: var(--c-100);
+}
+
+a {
+  color: var(--c-300);
+  font-weight: 500;
+  text-underline-offset: 0.25rem;
+  display: inline-flex;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  color: var(--c-300);
+  font-weight: 500;
+  display: inline-flex;
+  text-align: start;
+  cursor: pointer;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.line-clamp {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: var(--lines);
+  -webkit-box-orient: vertical;
+}
+
+.container {
+  padding: 1rem;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1600px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+main#home .allowed-paths a {
+  padding: 1rem;
+  background-color: var(--c-600);
+  border-radius: 0.25rem;
+}
+
+main#folder-view .folder-contents {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+
+  .card {
+    padding: 0.5rem;
+    background-color: var(--c-600);
+    border-radius: 0.25rem;
+    display: flex;
+    gap: 0.5rem;
+
+    a,
+    button,
+    .name {
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+    }
+
+    .name {
+      word-wrap: break-word;
+      max-width: 100%;
+    }
+
+    .thumbnail {
+      height: 4rem;
+      aspect-ratio: 1 / 1;
+      background-color: var(--c-500);
+      border-radius: 0.25rem;
+    }
+  }
+}
+
+main#folder-view > .row {
+  align-items: start;
+
+  #preview {
+    padding: 1rem;
+    width: 32rem;
+    flex-shrink: 0;
+  }
+}

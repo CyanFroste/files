@@ -1,0 +1,17 @@
+{% extends "layout.tera" %} {% block head %}
+
+<title>Files</title>
+
+{% endblock head %} {% block content %}
+
+<main id="home" class="container col">
+  <div class="title">Browse</div>
+
+  <div class="row allowed-paths">
+    {% for p in allowed_paths %}
+    <a href="/folders/view?path={{ p }}">{{ p }}</a>
+    {% endfor %}
+  </div>
+</main>
+
+{% endblock content %}

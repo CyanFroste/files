@@ -1,0 +1,5 @@
+<div class="col">
+  <div>{{ file.name }}</div>
+  <div>{{ file.path }}</div>
+  <div>{{ file.type }}</div>
+</div>
