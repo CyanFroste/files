@@ -1,0 +1,75 @@
+{% import "macros.tera" as macros %} {% extends "layout.tera" %} {% block head %}
+
+<title>File</title>
+
+{% endblock head %} {% block content %}
+
+<main id="file-view" class="container col">
+  <div class="actions row">
+    {{ macros::breadcrumbs(data = breadcrumbs) }}
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="details col">
+        <div class="name">{{ file.name }}</div>
+        <div class="path">{{ file.path }}</div>
+        <div class="type">{{ file.type }}</div>
+      </div>
+
+      <form action="/file/tags" method="POST" class="tags-container">
+        <input hidden type="text" name="file_id" value="{{ stringify_db_id(id = file.id) }}" />
+        <input hidden type="text" name="file_path" value="{{ file.path }}" />
+
+        <div class="actions row">
+          <div class="title">Tags</div>
+          <button type="submit" class="save">Save</button>
+        </div>
+
+        <div class="tags row">
+          <div class="selected col">
+            <div class="title">Selected</div>
+
+            <div class="list">
+              {% for tag in file.tags %}
+
+              <label class="tag">
+                <input
+                  hidden
+                  type="checkbox"
+                  name="removed"
+                  value="tag:{{ stringify_db_id(id = tag.id) }}" />
+                <div>{{ tag.name }}</div>
+              </label>
+
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="available col">
+            <div class="title">Available</div>
+
+            <div class="list">
+              {% for tag in tags %}
+
+              <label class="tag">
+                <input
+                  hidden
+                  type="checkbox"
+                  name="added"
+                  value="tag:{{ stringify_db_id(id = tag.id) }}" />
+                <div>{{ tag.name }}</div>
+              </label>
+
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col thumbnail"></div>
+  </div>
+</main>
+
+{% endblock content %}

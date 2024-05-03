@@ -1,0 +1,15 @@
+{% macro breadcrumbs(data) %}
+
+<div class="breadcrumbs">
+  <a href="/" class="home">HOME</a>
+  {% for b in data %}
+  <div class="separator"></div>
+  <a
+    href="{% if b.is_dir %}/folder{% else %}/file{% endif %}?path={{ b.path }}"
+    title="{{ b.name }}">
+    {{ b.name }}
+  </a>
+  {% endfor %}
+</div>
+
+{% endmacro %}

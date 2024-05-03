@@ -1,0 +1,32 @@
+{% import "macros.tera" as macros %} {% extends "layout.tera" %} {% block head %}
+
+<title>Folder</title>
+
+{% endblock head %} {% block content %}
+
+<main id="folder-view" class="container col">
+  <div class="actions row">
+    {{ macros::breadcrumbs(data = breadcrumbs) }}
+  </div>
+
+  <div class="contents">
+    {% for c in folder.contents %}
+
+    <div class="card {% if c.is_dir %}folder{% endif %}">
+      <div class="thumbnail"></div>
+
+      <a
+        href="{% if c.is_dir %}/folder?path={{ c.path }}{% else %}/file?path={{
+          c.path
+        }}{% endif %}">
+        <span class="name line-clamp" style="--lines: 3" title="{{ c.name }}">
+          {{ c.name }}
+        </span>
+      </a>
+    </div>
+
+    {% endfor %}
+  </div>
+</main>
+
+{% endblock content %}

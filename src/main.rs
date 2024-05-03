@@ -26,7 +26,9 @@ async fn main() -> Result<()> {
     let db = Surreal::new::<RocksDb>("db").await?;
     db.use_ns("files").use_db("files").await?;
 
-    let tmpl = Tera::new("templates/**/*.tera")?;
+    let mut tmpl = Tera::new("templates/**/*.tera")?;
+    tmpl.register_function("stringify_db_id", utils::templates::stringify_db_id);
+
     let config = Config::from_file("config.json")?;
 
     let state = Arc::new(AppState { db, tmpl, config });

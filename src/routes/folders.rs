@@ -1,4 +1,7 @@
-use crate::types::{AppState, Folder, Result};
+use crate::{
+    types::{AppState, Folder, Result},
+    utils::generate_breadcrumbs,
+};
 use axum::{
     extract::{Query, State},
     response::{Html, IntoResponse},
@@ -19,7 +22,7 @@ async fn view(
     state: State<Arc<AppState>>,
     Query(ViewQueryParams { path }): Query<ViewQueryParams>,
 ) -> Result<impl IntoResponse> {
-    const TEMPLATE: &str = "folders/view.tera";
+    const TEMPLATE: &str = "folder.tera";
     debug!(data = path, "requested folder");
 
     let cached: Option<Folder> = state.db.select(("folder", &path)).await?;
@@ -38,10 +41,11 @@ async fn view(
     let mut ctx = Context::new();
     ctx.insert("path", &path);
     ctx.insert("folder", &folder);
+    ctx.insert("breadcrumbs", &generate_breadcrumbs(&path));
 
     Ok(Html(state.tmpl.render(TEMPLATE, &ctx)?))
 }
 
 pub fn router() -> Router<Arc<AppState>> {
-    Router::new().route("/folders/view", get(view))
+    Router::new().route("/folder", get(view))
 }

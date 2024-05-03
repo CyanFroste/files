@@ -9,7 +9,7 @@
 
   <div class="row allowed-paths">
     {% for p in allowed_paths %}
-    <a href="/folders/view?path={{ p }}">{{ p }}</a>
+    <a href="/folder?path={{ p }}">{{ p }}</a>
     {% endfor %}
   </div>
 </main>

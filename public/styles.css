@@ -10,6 +10,7 @@
   --c-500: #cad2c5ff;
   --c-600: #e5e9e2ff;
   --c-700: #f2f4f1ff;
+  --c-800: #bc4749ff;
 }
 
 body {
@@ -35,6 +36,8 @@ button {
   text-align: start;
   cursor: pointer;
 }
+
+/* COMPONENTS */
 
 .row {
   display: flex;
@@ -62,58 +65,172 @@ button {
   max-width: 1600px;
 }
 
-.title {
-  font-size: 2rem;
-  font-weight: 600;
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+
+  .separator {
+    width: 2px;
+    height: 1.5rem;
+    margin: 0 0.5rem;
+    background-color: var(--c-500);
+    rotate: 15deg;
+  }
+
+  .home {
+    font-weight: 600;
+    letter-spacing: 0.125rem;
+  }
 }
 
-main#home .allowed-paths a {
-  padding: 1rem;
-  background-color: var(--c-600);
-  border-radius: 0.25rem;
-}
+/* HOME */
 
-main#folder-view .folder-contents {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-  gap: 1rem;
-
-  .card {
-    padding: 0.5rem;
+main#home {
+  .allowed-paths a {
+    padding: 1rem;
     background-color: var(--c-600);
     border-radius: 0.25rem;
-    display: flex;
-    gap: 0.5rem;
+  }
+}
 
-    a,
-    button,
-    .name {
-      width: 100%;
-      height: 100%;
-      min-width: 0;
-    }
+/* FOLDER VIEW */
 
-    .name {
-      word-wrap: break-word;
-      max-width: 100%;
-    }
+main#folder-view {
+  .actions {
+    padding: 1rem 0;
+  }
 
-    .thumbnail {
-      height: 4rem;
-      aspect-ratio: 1 / 1;
-      background-color: var(--c-500);
+  .contents {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1rem;
+
+    .card {
+      padding: 0.5rem;
+      background-color: var(--c-600);
       border-radius: 0.25rem;
+      display: flex;
+      gap: 0.5rem;
+
+      &.folder {
+        .thumbnail {
+          background-color: var(--c-500);
+        }
+      }
+
+      .thumbnail {
+        height: 4rem;
+        aspect-ratio: 1 / 1;
+        background-color: var(--c-300);
+        border-radius: 0.25rem;
+      }
+
+      a,
+      button,
+      .name {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+      }
+
+      .name {
+        word-wrap: break-word;
+        max-width: 100%;
+      }
     }
   }
 }
 
-main#folder-view > .row {
-  align-items: start;
+/* FILE VIEW */
 
-  #preview {
-    padding: 1rem;
-    width: 32rem;
-    flex-shrink: 0;
+main#file-view {
+  .actions {
+    padding: 1rem 0;
+  }
+
+  .tags-container {
+    .actions {
+      margin-bottom: 1rem;
+
+      .title {
+        font-weight: 500;
+        font-size: 1.25rem;
+      }
+
+      button.save {
+        background-color: var(--c-200);
+        color: var(--c-700);
+        padding: 0.25rem 1rem;
+        border-radius: 0.25rem;
+      }
+    }
+  }
+
+  .tags {
+    align-items: start;
+
+    .selected,
+    .available {
+      min-width: 20rem;
+      align-items: start;
+
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .title {
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        color: var(--c-300);
+        letter-spacing: 0.025rem;
+      }
+    }
+
+    .tag {
+      & > div {
+        padding: 0.25rem 0.75rem;
+        background-color: var(--c-600);
+        color: var(--c-100);
+        border-radius: 0.25rem;
+        font-weight: 500;
+      }
+    }
+
+    .selected .tag {
+      input[type='checkbox']:checked + div {
+        background-color: var(--c-800);
+        color: var(--c-700);
+      }
+    }
+
+    .available .tag {
+      input[type='checkbox']:checked + div {
+        background-color: var(--c-300);
+        color: var(--c-700);
+      }
+    }
+  }
+
+  .details {
+    margin-bottom: 2rem;
+
+    .name {
+      font-weight: 500;
+      font-size: 1.25rem;
+    }
+
+    .path {
+      font-size: 0.875rem;
+    }
+
+    .type {
+      color: var(--c-300);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
   }
 }
