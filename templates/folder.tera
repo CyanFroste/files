@@ -13,7 +13,11 @@
     {% for c in folder.contents %}
 
     <div class="card {% if c.is_dir %}folder{% endif %}">
-      <div class="thumbnail"></div>
+      <div class="thumbnail">
+        {% if thumbnails[c.path] %}
+        <img src="/media?path={{ thumbnails[c.path] }}" alt="{{ c.name }}" />
+        {% endif %}
+      </div>
 
       <a
         href="{% if c.is_dir %}/folder?path={{ c.path }}{% else %}/file?path={{

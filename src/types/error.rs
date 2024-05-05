@@ -12,6 +12,12 @@ impl IntoResponse for Error {
     }
 }
 
+impl From<image::error::ImageError> for Error {
+    fn from(e: image::error::ImageError) -> Self {
+        Self(e.to_string())
+    }
+}
+
 impl From<serde_json::Error> for Error {
     fn from(e: serde_json::Error) -> Self {
         Self(e.to_string())
@@ -38,6 +44,12 @@ impl From<std::io::Error> for Error {
 
 impl From<dotenvy::Error> for Error {
     fn from(e: dotenvy::Error) -> Self {
+        Self(e.to_string())
+    }
+}
+
+impl From<tokio::task::JoinError> for Error {
+    fn from(e: tokio::task::JoinError) -> Self {
         Self(e.to_string())
     }
 }

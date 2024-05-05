@@ -115,15 +115,21 @@ main#folder-view {
 
       &.folder {
         .thumbnail {
-          background-color: var(--c-500);
+          background-color: var(--c-400);
         }
       }
 
       .thumbnail {
         height: 4rem;
         aspect-ratio: 1 / 1;
-        background-color: var(--c-300);
+        background-color: var(--c-500);
         border-radius: 0.25rem;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
       }
 
       a,

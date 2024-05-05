@@ -97,6 +97,7 @@ pub struct AppState {
 #[derive(Debug, Deserialize)]
 pub struct Config {
     pub allowed_paths: Vec<String>,
+    pub thumbnail_dir: String,
 }
 
 impl Config {

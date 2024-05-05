@@ -1,3 +1,4 @@
 {
-  "allowed_paths": ["D:\\"]
+  "allowed_paths": ["D:\\"],
+  "thumbnail_dir": "D:\\.thumbnails"
 }

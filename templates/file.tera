@@ -12,6 +12,17 @@
   <div class="row">
     <div class="col">
       <div class="details col">
+        {% if previewable %} {% if not thumbnail %}
+        <form hx-post="/file/thumbnail" hx-trigger="load" hx-target="this" hx-swap="outerHTML">
+          <input type="hidden" name="file_id" value="{{ stringify_db_id(id = file.id) }}" />
+          <input type="hidden" name="file_path" value="{{ file.path }}" />
+        </form>
+        {% else %}
+        <div class="thumbnail">
+          <img src="media?path={{ thumbnail }}" />
+        </div>
+        {% endif %} {% endif %}
+
         <div class="name">{{ file.name }}</div>
         <div class="path">{{ file.path }}</div>
         <div class="type">{{ file.type }}</div>

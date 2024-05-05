@@ -1,6 +1,6 @@
 use crate::{
     types::{AppState, File, Result, Tag},
-    utils::generate_breadcrumbs,
+    utils::{generate_breadcrumbs, generate_thumbnail, get_thumbnail_path, is_previewable},
 };
 use axum::{
     extract::{Query, State},
@@ -55,6 +55,16 @@ async fn view(
     ctx.insert("file", &file);
     ctx.insert("tags", &tags);
     ctx.insert("breadcrumbs", &generate_breadcrumbs(&path));
+    ctx.insert(
+        "previewable",
+        &is_previewable(&file.r#type.unwrap_or_default()),
+    );
+    ctx.insert(
+        "thumbnail",
+        &get_thumbnail_path(&state.config.thumbnail_dir, &file.path)
+            .ok()
+            .filter(|p| p.exists()),
+    );
 
     Ok(Html(state.tmpl.render(TEMPLATE, &ctx)?))
 }
@@ -112,8 +122,29 @@ async fn edit_tags(
     Ok(Redirect::to(&format!("/file?path={}", form.file_path)))
 }
 
+#[derive(Debug, Deserialize)]
+struct CreateThumbnailForm {
+    // file_id: String,
+    file_path: String,
+}
+
+async fn create_thumbnail(
+    state: State<Arc<AppState>>,
+    Form(form): Form<CreateThumbnailForm>,
+) -> Result<impl IntoResponse> {
+    const TEMPLATE: &str = "created_file_thumbnail.tera";
+
+    let thumbnail_path = generate_thumbnail(&state.config.thumbnail_dir, &form.file_path).await?;
+
+    let mut ctx = Context::new();
+    ctx.insert("thumbnail", &thumbnail_path);
+
+    Ok(Html(state.tmpl.render(TEMPLATE, &ctx)?))
+}
+
 pub fn router() -> Router<Arc<AppState>> {
     Router::new()
         .route("/file", get(view))
         .route("/file/tags", post(edit_tags))
+        .route("/file/thumbnail", post(create_thumbnail))
 }

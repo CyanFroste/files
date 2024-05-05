@@ -1,6 +1,6 @@
 use crate::{
     types::{AppState, Folder, Result},
-    utils::generate_breadcrumbs,
+    utils::{generate_breadcrumbs, get_thumbnail_path},
 };
 use axum::{
     extract::{Query, State},
@@ -9,7 +9,7 @@ use axum::{
     Router,
 };
 use serde::Deserialize;
-use std::sync::Arc;
+use std::{collections::HashMap, sync::Arc};
 use tera::Context;
 use tracing::debug;
 
@@ -42,6 +42,19 @@ async fn view(
     ctx.insert("path", &path);
     ctx.insert("folder", &folder);
     ctx.insert("breadcrumbs", &generate_breadcrumbs(&path));
+
+    let thumbnails: HashMap<_, _> = HashMap::from_iter(folder.contents.iter().filter_map(|x| {
+        if x.is_dir {
+            None
+        } else {
+            get_thumbnail_path(&state.config.thumbnail_dir, &x.path)
+                .ok()
+                .filter(|p| p.exists())
+                .map(|p| (&x.path, p))
+        }
+    }));
+
+    ctx.insert("thumbnails", &thumbnails);
 
     Ok(Html(state.tmpl.render(TEMPLATE, &ctx)?))
 }
