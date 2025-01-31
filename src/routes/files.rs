@@ -33,10 +33,15 @@ async fn view(
         file
     } else {
         let file = File::from(&path)?;
-        let saved: Option<File> = state.db.create(("file", &path)).content(&file).await?;
+        let saved = state
+            .db
+            .create(("file", &path))
+            .content(&file)
+            .await?
+            .ok_or_else(|| "failed to save file")?;
 
         debug!(data = ?saved, "saved file to db");
-        file
+        saved
     };
 
     let sql = format!(

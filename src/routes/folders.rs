@@ -32,10 +32,15 @@ async fn view(
         folder
     } else {
         let folder = Folder::from(&path)?;
-        let saved: Option<Folder> = state.db.create(("folder", &path)).content(&folder).await?;
+        let saved = state
+            .db
+            .create(("folder", &path))
+            .content(&folder)
+            .await?
+            .ok_or_else(|| "failed to save folder")?;
 
         debug!(data = ?saved, "saved folder to db");
-        folder
+        saved
     };
 
     let mut ctx = Context::new();
